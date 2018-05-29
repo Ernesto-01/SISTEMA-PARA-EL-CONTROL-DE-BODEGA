@@ -3,9 +3,7 @@ include "InterfazCrud.php";
 include "../modelo/credenciales.php";
 include "../modelo/Herramienta.php";
 
-/**
- *
- */
+
 class ControlHerramienta implements InterfazCrud
 {
 
@@ -19,15 +17,13 @@ class ControlHerramienta implements InterfazCrud
       }
     }
 
-    public function insertar($obj){
 
-        $sql ="insert into `herramienta` (`idHerramienta`, `nombre`, `idCategoria`, `idEstado`, `disponible`, `activo`)
-                values (".$obj->getIdHerramienta().",
-                 '".$obj->getNombre()."',
+    public function insertar($obj){
+        $sql ="insert into `herramienta` (`nombre`, `idCategoria`, `idEstado`, `disponible`, `activo`)
+                values('".$obj->getNombre()."',
                  ".$obj->getIdCategoria().",
                  ".$obj->getIdEstado().",
-                 ".$obj->getDisponible().",
-                 ".$obj->getActivo().")";
+                 ".$obj->getDisponible().",1)";
 
        $this->con->query($sql);
        if($this->con->error){
@@ -37,9 +33,9 @@ class ControlHerramienta implements InterfazCrud
          return true;
        }
     }
+
+
     public function eliminar($id){
-
-
     $sql ="update herramienta set activo=0  where idHerramienta=".$id;
     $this->con->query($sql);
      if($this->con->error){
@@ -48,8 +44,9 @@ class ControlHerramienta implements InterfazCrud
      }else{
        return true;
      }
-
     }
+
+
     public function modificar($obj){
       $sql ="update herramienta set
             nombre='".$obj->getNombre()."',
@@ -65,31 +62,6 @@ class ControlHerramienta implements InterfazCrud
      }else{
        return true;
      }
-
-    }
-
-
-    public function reporte(){
-      $dataTable = null;
-      $sql= "select count(*) as Cantidad,categoriaherramienta.nombreCategoria from herramienta inner join categoriaherramienta on herramienta.idCategoria = categoriaherramienta.idCategoria and  herramienta.activo=1 group by herramienta.idCategoria;";
-      $res= $this->con->query($sql);
-      $dataTable.= "<table >
-                       <tr>
-                        <th>Cantidad</th>
-                        <th>Categoria</th>
-                       </tr>";
-      while($fila=$res->fetch_assoc())
-      {
-        $dataTable.= "<tr>
-                         <td>".$fila['Cantidad']."</td>
-                         <td>".$fila['nombreCategoria']."</td>
-
-                     </tr>";
-      }
-
-      $dataTable.= "</table>";
-      return $dataTable;
-
 
     }
 
@@ -124,10 +96,8 @@ class ControlHerramienta implements InterfazCrud
       			               </td>
     			             </tr>";
     		}
-
     		$dataTable.= "</table>";
     		return $dataTable;
-
     }
 
 
@@ -139,12 +109,9 @@ class ControlHerramienta implements InterfazCrud
     {
       $dataTable.= "<option value=".$fila['idEstado'].">
                       ".$fila['estado']."
-                    </option>"
-                       ;
+                    </option>";
     }
-
     return $dataTable;
-
     }
 
 
@@ -160,6 +127,71 @@ class ControlHerramienta implements InterfazCrud
           }
           return $dataTable;
     }
+
+
+public function reporte1(){
+$dataTable = null;
+$sql= "select count(*) as Cantidad,categoriaherramienta.nombreCategoria from herramienta inner join categoriaherramienta on herramienta.idCategoria = categoriaherramienta.idCategoria and  herramienta.activo=1 group by herramienta.idCategoria;";
+$res= $this->con->query($sql);
+$dataTable.= "<table >
+                 <tr>
+                  <th>Cantidad</th>
+                  <th>Categoria</th>
+                 </tr>";
+while($fila=$res->fetch_assoc())
+{
+  $dataTable.= "<tr>
+                   <td>".$fila['Cantidad']."</td>
+                   <td>".$fila['nombreCategoria']."</td>
+
+               </tr>";
 }
 
- ?>
+$dataTable.= "</table>";
+return $dataTable;
+}
+
+
+public function reporte2(){
+$dataTable = null;
+$sql= "select herramienta.nombre, estadoherramienta.estado from estadoherramienta inner join herramienta on estadoherramienta.idEstado=herramienta.idEstado where herramienta.idEstado=4 or herramienta.idEstado=5;";
+$res= $this->con->query($sql);
+$dataTable.= "<table border=1 >
+                 <tr>
+                  <th>Nombre de la herramienta</th>
+                  <th>Estado</th>
+                 </tr>";
+while($fila=$res->fetch_assoc())
+{
+  $dataTable.= "<tr>
+                   <td>".$fila['herramienta.nombre']."</td>
+                   <td>".$fila['estadoherramienta.estado']."</td>
+               </tr>";
+             }
+$dataTable.= "</table>";
+return $dataTable;
+}
+
+
+public function reporte5(){
+       $dataTable=null;
+       $sql ="select dp.fechaEntrega, h.nombre from detalleprestamo as dp inner join herramienta as h on dp.activo=1 where h.activo=1;";
+       $res = $this->con->query($sql);
+       $dataTable .= "<table border=1px align='center'>
+                        <tr>
+                          <th>fecha Entrega y Hora</th>
+                          <th>Nombre herramienta</th>
+                        </tr>";
+       while($fila=$res->fetch_assoc()){
+          $dataTable .= "<tr>
+                            <td>".$fila['dp.fechaEntrega']."</td>
+                            <td>".$fila['h.nombre']."</td>
+                            <td>
+                            </td>
+                        </tr>";
+       }
+         $dataTable .="</table>";
+         return $dataTable;
+  }
+}
+?>

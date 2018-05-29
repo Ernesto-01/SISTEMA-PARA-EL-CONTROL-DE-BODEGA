@@ -2,7 +2,7 @@
 include "../dao/DaoEmpleados.php";
 
 $daoE = new DaoEmpleados();
-$emp =new Empleado();
+$emp = new Empleado();
 
 if (isset($_REQUEST["btnAgregar"])) {
   $emp->setIdEmpleado($_REQUEST["txtId"]);
@@ -17,12 +17,12 @@ if (isset($_REQUEST["btnAgregar"])) {
 
 
 
-  if($daoH->insertar($emp)){
+  if($daoE->insertar($emp)){
      echo "<script>alert('Exito');</script>";
   }else{
      echo "<script>alert('Error');</script>";
    }
-}else if (isset($_REQUEST["btnModificar"])) {
+}else if(isset($_REQUEST["btnModificar"])) {
 
 $emp->setIdEmpleado($_REQUEST["txtId"]);
 $emp->setNombre($_REQUEST["txtNombre"]);
@@ -31,10 +31,11 @@ $emp->setDireccion($_REQUEST["txtDireccion"]);
 $emp->setDui($_REQUEST["txtDui"]);
 $emp->setNit($_REQUEST["txtNit"]);
 $emp->setTel($_REQUEST["txtTel"]);
-$emp->setIdCargo($_REQUEST["txtUsuario"]);
-$emp->setActivo($_REQUEST["txtCargo"]);
+$emp->setIdUsuario($_REQUEST["txtUsuario"]);
+$emp->setIdCargo($_REQUEST["txtCargo"]);
 
-  if($daoH->modificar($emp)){
+
+  if($daoE->modificar($emp)){
      echo "<script>alert('Exito');</script>";
   }else{
      echo "<script>alert('Error');</script>";
@@ -42,7 +43,7 @@ $emp->setActivo($_REQUEST["txtCargo"]);
 }else if (isset($_REQUEST["btnEliminar"])) {
 
   $idE=$_REQUEST["txtId"];
-  if($daoH->eliminar($idE)){
+  if($daoE->eliminar($idE)){
      echo "<script>alert('Exito');</script>";
   }else{
      echo "<script>alert('Error');</script>";
@@ -113,8 +114,8 @@ $emp->setActivo($_REQUEST["txtCargo"]);
     <tr>
       <td colspan="2">
         <input type="submit" name="btnAgregar" value="Agregar">
-        <input type="submit" name="btnModificar" value="Agregar">
-        <input type="submit" name="btnEliminar" value="Agregar">
+        <input type="submit" name="btnModificar" value="Modificar" onclick="return confir('dffdfsf');">
+        <input type="submit" name="btnEliminar" value="Eliminar">
         <input type="reset" name="btnLimpiar" value="Limpiar">
       </td>
 

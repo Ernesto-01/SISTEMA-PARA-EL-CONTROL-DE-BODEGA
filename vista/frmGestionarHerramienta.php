@@ -5,7 +5,7 @@ $daoH = new ControlHerramienta();
 $h =new Herramienta();
 
 if (isset($_REQUEST["btnAgregar"])) {
-  $h->setIdHerramienta($_REQUEST["txtId"]);
+  
   $h->setNombre($_REQUEST["txtNombre"]);
   $h->setIdCategoria($_REQUEST["slCategoria"]);
   $h->setIdEstado($_REQUEST["slEstado"]);

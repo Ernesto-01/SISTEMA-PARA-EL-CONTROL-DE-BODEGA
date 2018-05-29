@@ -21,14 +21,14 @@ class DaoEmpleados implements InterfazCrud
 
   public function insertar($obj){
         $sql ="insert into empleado (nombre, apellido, direccion, dui, nit, tel, idUsuario, idCargo, activo)
-                values (".$obj->getNombre().",
+                values ('".$obj->getNombre()."',
                  '".$obj->getApellido()."',
-                 ".$obj->getDireccion().",
-                 ".$obj->getDui().",
-                 ".$obj->getNit().",
-                 ".$obj->getTel().",
-                 ".$obj->getIdUsuario().",
-                 ".$obj->getIdCargo().",1)";
+                 '".$obj->getDireccion()."',
+                 '".$obj->getDui()."',
+                 '".$obj->getNit()."',
+                 '".$obj->getTel()."',
+                  ".$obj->getIdUsuario().",
+                  ".$obj->getIdCargo().",1)";
 
        $this->con->query($sql);
        if($this->con->error){
@@ -51,17 +51,14 @@ class DaoEmpleados implements InterfazCrud
     }
 
     public function modificar($obj){
-
-      $sql ="update empleado set
-            nombre='".$obj->getNombre()."',
-            apellido=".$obj->getApellido().",
-            direccion=". $obj->getDireccion() .",
-            dui=".$obj->getDui().",
-            nit=".$obj->getNit().",
-            tel=".$obj->getTel().",
-            idUsuario=".$obj->getIdUsuario().",
-            idCargo=".$obj->getIdCargo().",
-            idEmpleado=".$obj->getIdCategoria()." where idHerramienta=". $obj->getIdHerramienta();
+      $sql ="update `empleado` set `nombre`='".$obj->getNombre()."',
+            `apellido`='".$obj->getApellido()."',
+            `direccion`='". $obj->getDireccion() ."',
+            `dui`='".$obj->getDui()."',
+            `nit`='".$obj->getNit()."',
+            `tel`='".$obj->getTel()."',
+            `idUsuario`=".$obj->getIdUsuario().",
+            `idCargo`=".$obj->getIdCargo()." where `idEmpleado`=".$obj->getIdEmpleado()." and activo=1";
 
       $this->con->query($sql);
      if($this->con->error){
@@ -109,17 +106,16 @@ class DaoEmpleados implements InterfazCrud
                            <td>".$fila['idUsuario']."</td>
                            <td>".$fila['idCargo']."</td>
       			               <td>
-                             <a href=\"javascript:llenar(".
-                                $fila['idEmpleado'].",
-                              ".$fila['nombre'].",
-                              ".$fila['apellido'].",
-                              ".$fila['direccion']."
-                              ".$fila['dui'].",
-                              ".$fila['nit'].",
-                              ".$fila['tel'].",
-                              ".$fila['idUsuario'].",
-                              ".$fila['idCargo']."
-                              );\">Seleccionar</a>
+                             <a href=\"javascript:llenar(
+                              ".$fila['idEmpleado'].",
+                             '".$fila['nombre']."',
+                             '".$fila['apellido']."',
+                             '".$fila['direccion']."',
+                             '".$fila['dui']."',
+                             '".$fila['nit']."',
+                             '".$fila['tel']."',
+                             ".$fila['idUsuario'].",
+                             ".$fila['idCargo'].");\">Seleccionar</a>
                            </td>
     			             </tr>";
     		}
